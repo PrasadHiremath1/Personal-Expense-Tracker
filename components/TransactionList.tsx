@@ -1,9 +1,9 @@
 
+
 'use client';
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-// import { Card, Text } from 'shadcn/ui';
 import { Card, CardTitle } from './ui/card';
 
 type Transaction = {
