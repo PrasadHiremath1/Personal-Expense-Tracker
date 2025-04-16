@@ -1,12 +1,15 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Transaction from '@/models/Transactions';
 
 // DELETE /api/transactions/:id
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(
+  req: NextRequest,
+  context: { params: { id: string } }
+) {
   try {
     await connectDB();
-    const deletedTransaction = await Transaction.findByIdAndDelete(params.id);
+    const deletedTransaction = await Transaction.findByIdAndDelete(context.params.id);
 
     if (!deletedTransaction) {
       return NextResponse.json({ error: 'Transaction not found' }, { status: 404 });
@@ -20,7 +23,10 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
 }
 
 // PUT /api/transactions/:id
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(
+  req: NextRequest,
+  context: { params: { id: string } }
+) {
   try {
     const body = await req.json();
 
@@ -29,7 +35,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     }
 
     await connectDB();
-    const updatedTransaction = await Transaction.findByIdAndUpdate(params.id, body, { new: true });
+    const updatedTransaction = await Transaction.findByIdAndUpdate(context.params.id, body, { new: true });
 
     if (!updatedTransaction) {
       return NextResponse.json({ error: 'Transaction not found' }, { status: 404 });

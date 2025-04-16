@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -19,6 +18,8 @@ export default function AllTransactionsPage() {
   const [categoryBreakdown, setCategoryBreakdown] = useState<{ [key: string]: number }>({});
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
   const [originalTransaction, setOriginalTransaction] = useState<Transaction | null>(null);
+  const predefinedCategories = ['Food', 'Transport', 'Entertainment', 'Bills', 'Others'];
+
 
   // Fetch data on mount
   useEffect(() => {
@@ -122,17 +123,34 @@ export default function AllTransactionsPage() {
                   className="border p-1"
                 />
                 <input
-                  type="number"
-                  value={editingTransaction.amount}
-                  onChange={(e) => setEditingTransaction({ ...editingTransaction, amount: parseFloat(e.target.value) })}
-                  className="border p-1"
-                />
-                <input
-                  type="text"
-                  value={editingTransaction.category}
-                  onChange={(e) => setEditingTransaction({ ...editingTransaction, category: e.target.value })}
-                  className="border p-1"
-                />
+                    type="number"
+                    value={
+                      editingTransaction.amount !== undefined && !isNaN(editingTransaction.amount)
+                        ? editingTransaction.amount
+                        : ''
+                    }
+                    onChange={(e) =>
+                      setEditingTransaction({
+                        ...editingTransaction,
+                        amount: e.target.value === '' ? 0 : parseFloat(e.target.value),
+                      })
+                    }
+                    className="border p-1"
+                  />
+
+                  <select
+                    value={editingTransaction.category}
+                    onChange={(e) => setEditingTransaction({ ...editingTransaction, category: e.target.value })}
+                    className="border p-1"
+                  >
+                    <option value="">Select Category</option>
+                    {predefinedCategories.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
+                    ))}
+                  </select>
+
                 <Button
                   onClick={handleSaveEdit}
                   className="bg-green-600 text-white"
