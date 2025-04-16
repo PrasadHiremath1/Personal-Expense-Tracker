@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
-import connectDB from "@/lib/mongodb";
-import Transaction from "@/models/Transactions";
+
+import { NextResponse } from 'next/server';
+import connectDB from '@/lib/mongodb';
+import Transaction from '@/models/Transactions';
 
 export async function GET() {
   await connectDB();
@@ -11,6 +12,12 @@ export async function GET() {
 export async function POST(req: Request) {
   await connectDB();
   const body = await req.json();
+
+  // Basic validation
+  if (!body.amount || !body.description || !body.date || !body.category) {
+    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+  }
+
   const newTransaction = await Transaction.create(body);
   return NextResponse.json({ transaction: newTransaction });
 }

@@ -1,13 +1,17 @@
-'use client'
 
-import { useEffect, useState } from "react";
-import axios from "axios";
+'use client';
+
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+// import { Card, Text } from 'shadcn/ui';
+import { Card, CardTitle } from './ui/card';
 
 type Transaction = {
   _id: string;
   amount: number;
   description: string;
   date: string;
+  category: string;
 };
 
 type Props = {
@@ -22,7 +26,7 @@ export default function TransactionList({ refresh }: Props) {
       const res = await axios.get('/api/transactions');
       setTransactions(res.data.transactions);
     } catch (error) {
-      console.error("Failed to fetch transactions:", error);
+      console.error('Failed to fetch transactions:', error);
     }
   };
 
@@ -35,14 +39,14 @@ export default function TransactionList({ refresh }: Props) {
     <div className="space-y-2">
       {transactions.length > 0 ? (
         transactions.map((t) => (
-          <div key={t._id} className="border p-2 rounded shadow-sm bg-white">
-            <p className="text-black">
-              <strong className="text-black">₹{t.amount}</strong> - {t.description}
-            </p>
-            <p className="text-sm text-gray-900">
-              {new Date(t.date).toLocaleDateString()}
-            </p>
-          </div>
+          <Card key={t._id} className="p-4">
+            <CardTitle>
+              <strong>₹{t.amount}</strong> - {t.description}
+            </CardTitle>
+            <CardTitle className="text-sm text-gray-600">
+              {new Date(t.date).toLocaleDateString()} | <em>{t.category}</em>
+            </CardTitle>
+          </Card>
         ))
       ) : (
         <p className="text-gray-500 italic">No transactions yet.</p>
