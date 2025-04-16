@@ -3,12 +3,15 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Project Progress
 - Stage 1: Setup and basic transaction
 - Stage 2: Added category feature and category wise breakdown
+- Stage 3: Added bar graph and pie charts and ability to edit and delete transactions
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
+npm install
+
 npm run dev
 # or
 yarn dev
