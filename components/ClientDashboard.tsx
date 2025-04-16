@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -6,7 +7,7 @@ import { Card, CardTitle } from './ui/card';
 import TransactionForm from './TransactionForm';
 import TransactionList from './TransactionList';
 
-export default function Dashboard() {
+export default function ClientDashboard() {
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [categoryBreakdown, setCategoryBreakdown] = useState<any>({});
   const [recentTransactions, setRecentTransactions] = useState<any[]>([]);
@@ -17,7 +18,7 @@ export default function Dashboard() {
       const res = await axios.get('/api/transactions');
       const transactions = res.data.transactions;
 
-      // Calculate total expenses
+      // Calculate total expe
       const total = transactions.reduce((acc: number, t: any) => acc + t.amount, 0);
       setTotalExpenses(total);
 
@@ -28,7 +29,7 @@ export default function Dashboard() {
       });
       setCategoryBreakdown(categories);
 
-      // Get the most recent transactions
+      // Get only 5 recent transactions
       setRecentTransactions(transactions.slice(0, 5));
     } catch (error) {
       console.error('Failed to fetch data:', error);
@@ -41,31 +42,30 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Form to Add Transaction */}
+
       <Card className="p-4">
         <CardTitle className="mb-2 text-lg font-bold">Add Transaction</CardTitle>
         <TransactionForm onSuccess={() => setRefresh((r) => !r)} />
       </Card>
 
-      {/* Summary */}
       <Card className="p-4">
         <CardTitle className="text-lg font-bold">Total Expenses: ₹{totalExpenses}</CardTitle>
       </Card>
 
       {/* Category Breakdown */}
-      <Card className="p-4">
+      {/* <Card className="p-4">
         <CardTitle className="text-lg font-bold">Category Breakdown:</CardTitle>
         {Object.keys(categoryBreakdown).map((category) => (
           <CardTitle key={category} className="text-sm text-muted-foreground">
             {category}: ₹{categoryBreakdown[category]}
           </CardTitle>
         ))}
-      </Card>
+      </Card> */}
 
-      {/* Recent Transactions */}
+
       <Card className="p-4">
         <CardTitle className="text-lg font-bold">Recent Transactions:</CardTitle>
-        {recentTransactions.map((t) => (
+        {recentTransactions.slice(0, 5).map((t) => (
           <CardTitle key={t._id} className="text-sm">
             {t.description} - ₹{t.amount}
           </CardTitle>
@@ -73,10 +73,10 @@ export default function Dashboard() {
       </Card>
 
       {/* All Transactions */}
-      <Card className="p-4">
+      {/* <Card className="p-4">
         <CardTitle className="mb-2 text-lg font-bold">All Transactions</CardTitle>
         <TransactionList refresh={refresh} />
-      </Card>
+      </Card> */}
     </div>
   );
 }

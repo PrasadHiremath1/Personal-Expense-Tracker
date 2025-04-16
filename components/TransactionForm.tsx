@@ -55,9 +55,11 @@ export default function TransactionForm({ onSuccess }: { onSuccess: () => void }
       <Input
         type="date"
         value={date}
+        max={new Date().toISOString().split('T')[0]} //  sets max to today
         onChange={(e) => setDate(e.target.value)}
         required
       />
+
       <Select value={category} onValueChange={(value: string) => setCategory(value)}>
         <SelectTrigger>
           <SelectValue placeholder="Select a category" />
