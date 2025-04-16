@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Project Progress
+- Stage 1: Setup and basic transaction
+- Stage 2: Added category feature and category wise breakdown
+
 ## Getting Started
 
 First, run the development server:
